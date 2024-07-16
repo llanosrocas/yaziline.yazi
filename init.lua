@@ -58,9 +58,9 @@ local function setup()
     local yanked_text = files_yanked > 0 and yank_symbol .. " " .. files_yanked or yank_symbol .. " 0"
 
     return ui.Line {
-        ui.Span("  "):fg(THEME.status.separator_style.fg),
-        ui.Span(select_symbol .. " " .. files_selected .. " "):fg(selected_fg),
-        ui.Span(yanked_text .. "  "):fg(yanked_fg),
+      ui.Span("  "):fg(THEME.status.separator_style.fg),
+      ui.Span(select_symbol .. " " .. files_selected .. " "):fg(selected_fg),
+      ui.Span(yanked_text .. "  "):fg(yanked_fg),
     }
   end
 

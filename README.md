@@ -24,6 +24,14 @@ Add this to your `~/.config/yazi/init.lua`:
 require("yaziline"):setup()
 ```
 
+Change separators in the `theme.toml`:
+
+```toml
+[status]
+separator_open  = ""
+separator_close = ""
+```
+
 ## Features
 
 ### Colors and font weight
