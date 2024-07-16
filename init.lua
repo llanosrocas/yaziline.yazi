@@ -3,27 +3,6 @@ local function setup()
     return ui.Line {}
   end
 
-  function Status:files()
-    local files_yanked = #cx.yanked
-    local files_selected = #cx.active.selected
-    local files_is_cut = cx.yanked.is_cut
-
-    local selected_fg = files_selected > 0 and THEME.manager.marker_selected.bg or THEME.status.separator_style.fg
-    local yanked_fg = files_yanked > 0 and (files_is_cut and THEME.manager.marker_cut.bg or THEME.manager.marker_copied.bg) or THEME.status.separator_style.fg
-
-    local select_symbol = "S"
-    local yank_symbol = "Y"
-
-    local yanked_text = files_yanked > 0 and yank_symbol .. " " .. files_yanked or yank_symbol .. " 0"
-
-    local style = self:style()
-    return ui.Line {
-        ui.Span("  "):fg(THEME.status.separator_style.fg),
-        ui.Span(select_symbol .. " " .. files_selected  .. "  "):fg(selected_fg),
-        ui.Span(yanked_text):fg(yanked_fg),
-    }
-  end
-
   function Status:mode()
     local mode = tostring(self._tab.mode):upper()
     if mode == "UNSET" then
@@ -54,10 +33,44 @@ local function setup()
       return ui.Line {}
     end
 
+    local trimmed_name = #h.name > 24 and (string.sub(h.name, 1, 6) .. "..." .. string.sub(h.name, -6)) or h.name
+
     local style = self:style()
     return ui.Line {
       ui.Span(THEME.status.separator_close .. " "):fg(THEME.status.separator_style.fg),
-      ui.Span(h.name):fg(style.bg),
+      ui.Span(trimmed_name):fg(style.bg),
+    }
+  end
+
+  function Status:files()
+    local files_yanked = #cx.yanked
+    local files_selected = #cx.active.selected
+    local files_is_cut = cx.yanked.is_cut
+
+    local selected_fg = files_selected > 0 and THEME.manager.marker_selected.bg or THEME.status.separator_style.fg
+    local yanked_fg = files_yanked > 0 and
+    (files_is_cut and THEME.manager.marker_cut.bg or THEME.manager.marker_copied.bg) or
+    THEME.status.separator_style.fg
+
+    local select_symbol = "S"
+    local yank_symbol = "Y"
+
+    local yanked_text = files_yanked > 0 and yank_symbol .. " " .. files_yanked or yank_symbol .. " 0"
+
+    return ui.Line {
+        ui.Span("  "):fg(THEME.status.separator_style.fg),
+        ui.Span(select_symbol .. " " .. files_selected .. " "):fg(selected_fg),
+        ui.Span(yanked_text .. "  "):fg(yanked_fg),
+    }
+  end
+
+  function Status:modified()
+    local hovered = cx.active.current.hovered
+    local cha = hovered.cha
+    local time = (cha.modified or 0) // 1
+
+    return ui.Line {
+      ui.Span(os.date("%Y-%m-%d %H:%M", time) .. "  "):fg(THEME.status.separator_style.fg),
     }
   end
 
@@ -130,10 +143,11 @@ local function setup()
     { Status.name, id = 3, order = 3000 },
     { Status.files, id = 4, order = 4000 },
   }
-  Status._right = {
-    { Status.permissions, id = 5, order = 1000 },
-    { Status.percentage, id = 6, order = 2000 },
-    { Status.position, id = 7, order = 3000 },
+    Status._right = {
+    { Status.modified, id = 5, order = 5000 },
+    { Status.permissions, id = 6, order = 6000 },
+    { Status.percentage, id = 7, order = 7000 },
+    { Status.position, id = 8, order = 8000 },
   }
 end
 
