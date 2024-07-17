@@ -1,6 +1,6 @@
 # yaziline.yazi
 
-Simple lualine-like line for yazi.
+Simple lualine-like status line for yazi.
 
 Read more about features and configuration [here](#features).
 
@@ -17,6 +17,8 @@ Read more about features and configuration [here](#features).
 ya pack -a llanosrocas/yaziline
 ```
 
+Or manually copy `init.lua` to the `~/.config/yazi/plugins/yaziline.yazi/init.lua`
+
 ## Usage
 
 Add this to your `~/.config/yazi/init.lua`:
@@ -25,11 +27,17 @@ Add this to your `~/.config/yazi/init.lua`:
 require("yaziline"):setup()
 ```
 
-Optionally, configure `separator_style`:
+Optionally, configure line:
 
 ```lua
 require("yaziline"):setup({
-  separator_style = "angly" -- "angly" | "curvy" | "empty"
+  separator_style = "angly" -- "angly" | "curvy" | "liney" | "empty"
+  separator_open = "",
+  separator_close = "",
+  separator_open_thin = "",
+  separator_close_thin = "",
+  select_symbol = "",
+  yank_symbol = "󰆐",
 })
 ```
 
@@ -43,8 +51,45 @@ Choose your style:
   ![angly](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/angly.png)
 - `curvy`
   ![curvy](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/curvy.png)
+- `liney`
+  ![liney](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/liney.png)
 - `empty`
   ![empty](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/empty.png)
+
+### Separator customization
+
+You can provide your own symbols for separators combined with preconfigured separators. For example:
+
+```lua
+require("yaziline"):setup({
+  -- Optinal config
+  separator_style = "angly", -- preconfigured style
+  separator_open = "", -- instead of 
+  separator_close = "", -- instead of 
+  separator_open_thin = "", -- change to anything
+  separator_close_thin = "", -- change to anything
+})
+```
+
+![empty](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/separator-combination.png)
+
+_You can find more symbols [here](https://www.nerdfonts.com/cheat-sheet)_
+
+### File actions icons
+
+You can provide your own symbols for `select` and `yank`. For example:
+
+```lua
+require("yaziline"):setup({
+  -- Optinal config
+  select_symbol = "", -- "S" by default
+  yank_symbol = "󰆐", -- "Y" by default
+})
+```
+
+![empty](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/file-actions.png)
+
+_You can find more symbols [here](https://www.nerdfonts.com/cheat-sheet)_
 
 ### Colors and font weight
 

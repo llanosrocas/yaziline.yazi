@@ -1,27 +1,26 @@
-local function setup(_, config)
-  config = config or {}
-  local separator_style = config.separator_style or "angly"
-  local separator_styles = {
-    angly = {
-      separator_open = "",
-      separator_close = "",
-      separator_open_thin = "",
-      separator_close_thin = ""
-    },
-    curvy = {
-      separator_open = "",
-      separator_close = "",
-      separator_open_thin = "",
-      separator_close_thin = ""
-    },
-    empty = {
-      separator_open = "",
-      separator_close = "",
-      separator_open_thin = "",
-      separator_close_thin = ""
-    }
+local function setup(_, options)
+  options = options or {}
+
+  local default_separators = {
+    angly = {"", "", "", ""},
+    curvy = {"", "", "", ""},
+    liney = {"", "", "|", "|"},
+    empty = {"", "", "", ""}
   }
-  local current_separator_style = separator_styles[separator_style]
+  local separators = default_separators[options.separator_style or "angly"]
+
+  local config = {
+    separator_styles = {
+      separator_open = options.separator_open or separators[1],
+      separator_close = options.separator_close or separators[2],
+      separator_open_thin = options.separator_open_thin or separators[3],
+      separator_close_thin = options.separator_close_thin or separators[4]
+    },
+    select_symbol = options.select_symbol or "S",
+    yank_symbol = options.yank_symbol or "Y"
+  }
+
+  local current_separator_style = config.separator_styles
 
   function Header:count()
     return ui.Line {}
@@ -76,14 +75,11 @@ local function setup(_, config)
     (files_is_cut and THEME.manager.marker_cut.bg or THEME.manager.marker_copied.bg) or
     THEME.status.separator_style.fg
 
-    local select_symbol = "S"
-    local yank_symbol = "Y"
-
-    local yanked_text = files_yanked > 0 and yank_symbol .. " " .. files_yanked or yank_symbol .. " 0"
+    local yanked_text = files_yanked > 0 and config.yank_symbol .. " " .. files_yanked or config.yank_symbol .. " 0"
 
     return ui.Line {
       ui.Span(" " .. current_separator_style.separator_close_thin .. " "):fg(THEME.status.separator_style.fg),
-      ui.Span(select_symbol .. " " .. files_selected .. " "):fg(selected_fg),
+      ui.Span(config.select_symbol .. " " .. files_selected .. " "):fg(selected_fg),
       ui.Span(yanked_text .. "  "):fg(yanked_fg),
     }
   end
