@@ -8,7 +8,8 @@ Read more about features and configuration [here](#features).
 
 ## Requirements
 
-yazi version >= 0.3.0
+- yazi version >= 0.3.0
+- Font with symbol support. For example [Nerd Fonts](https://www.nerdfonts.com/).
 
 ## Installation
 
@@ -24,15 +25,26 @@ Add this to your `~/.config/yazi/init.lua`:
 require("yaziline"):setup()
 ```
 
-Change separators in the `theme.toml`:
+Optionally, configure `separator_style`:
 
-```toml
-[status]
-separator_open  = ""
-separator_close = ""
+```lua
+require("yaziline"):setup({
+  separator_style = "angly" -- "angly" | "curvy" | "empty"
+})
 ```
 
 ## Features
+
+### Preconfigured separators
+
+Choose your style:
+
+- `angly`
+  ![angly](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/angly.png)
+- `curvy`
+  ![curvy](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/curvy.png)
+- `empty`
+  ![empty](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/empty.png)
 
 ### Colors and font weight
 

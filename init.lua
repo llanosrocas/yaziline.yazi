@@ -1,4 +1,28 @@
-local function setup()
+local function setup(_, config)
+  config = config or {}
+  local separator_style = config.separator_style or "angly"
+  local separator_styles = {
+    angly = {
+      separator_open = "",
+      separator_close = "",
+      separator_open_thin = "",
+      separator_close_thin = ""
+    },
+    curvy = {
+      separator_open = "",
+      separator_close = "",
+      separator_open_thin = "",
+      separator_close_thin = ""
+    },
+    empty = {
+      separator_open = "",
+      separator_close = "",
+      separator_open_thin = "",
+      separator_close_thin = ""
+    }
+  }
+  local current_separator_style = separator_styles[separator_style]
+
   function Header:count()
     return ui.Line {}
   end
@@ -23,7 +47,7 @@ local function setup()
 
     local style = self:style()
     return ui.Line {
-      ui.Span(THEME.status.separator_close .. " " .. ya.readable_size(h:size() or h.cha.length) .. " "):fg(style.bg):bg(THEME.status.separator_style.bg),
+      ui.Span(current_separator_style.separator_close .. " " .. ya.readable_size(h:size() or h.cha.length) .. " "):fg(style.bg):bg(THEME.status.separator_style.bg),
     }
   end
 
@@ -37,7 +61,7 @@ local function setup()
 
     local style = self:style()
     return ui.Line {
-      ui.Span(THEME.status.separator_close .. " "):fg(THEME.status.separator_style.fg),
+      ui.Span(current_separator_style.separator_close .. " "):fg(THEME.status.separator_style.fg),
       ui.Span(trimmed_name):fg(style.bg),
     }
   end
@@ -58,7 +82,7 @@ local function setup()
     local yanked_text = files_yanked > 0 and yank_symbol .. " " .. files_yanked or yank_symbol .. " 0"
 
     return ui.Line {
-      ui.Span("  "):fg(THEME.status.separator_style.fg),
+      ui.Span(" " .. current_separator_style.separator_close_thin .. " "):fg(THEME.status.separator_style.fg),
       ui.Span(select_symbol .. " " .. files_selected .. " "):fg(selected_fg),
       ui.Span(yanked_text .. "  "):fg(yanked_fg),
     }
@@ -70,7 +94,7 @@ local function setup()
     local time = (cha.modified or 0) // 1
 
     return ui.Line {
-      ui.Span(os.date("%Y-%m-%d %H:%M", time) .. "  "):fg(THEME.status.separator_style.fg),
+      ui.Span(os.date("%Y-%m-%d %H:%M", time) .. " " .. current_separator_style.separator_open_thin .. " "):fg(THEME.status.separator_style.fg),
     }
   end
 
@@ -121,9 +145,9 @@ local function setup()
 
     local style = self:style()
     return ui.Line {
-      ui.Span(" " .. THEME.status.separator_open):fg(THEME.status.separator_style.fg),
+      ui.Span(" " .. current_separator_style.separator_open):fg(THEME.status.separator_style.fg),
       ui.Span(percent):fg(style.bg):bg(THEME.status.separator_style.bg),
-      ui.Span(THEME.status.separator_open):fg(style.bg):bg(THEME.status.separator_style.bg)
+      ui.Span(current_separator_style.separator_open):fg(style.bg):bg(THEME.status.separator_style.bg)
     }
   end
 
