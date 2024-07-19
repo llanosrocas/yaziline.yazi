@@ -72,9 +72,9 @@ local function setup(_, options)
     local files_selected = #cx.active.selected
     local files_is_cut = cx.yanked.is_cut
 
-    local selected_fg = files_selected > 0 and THEME.manager.marker_selected.bg or THEME.status.separator_style.fg
+    local selected_fg = files_selected > 0 and THEME.manager.count_selected.bg or THEME.status.separator_style.fg
     local yanked_fg = files_yanked > 0 and
-    (files_is_cut and THEME.manager.marker_cut.bg or THEME.manager.marker_copied.bg) or
+    (files_is_cut and THEME.manager.count_cut.bg or THEME.manager.count_copied.bg) or
     THEME.status.separator_style.fg
 
     local yanked_text = files_yanked > 0 and config.yank_symbol .. " " .. files_yanked or config.yank_symbol .. " 0"
