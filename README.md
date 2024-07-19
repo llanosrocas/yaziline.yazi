@@ -38,6 +38,8 @@ require("yaziline"):setup({
   separator_close_thin = "",
   select_symbol = "",
   yank_symbol = "󰆐",
+  filename_max_length = 24, -- trim when filename > 24
+  filename_trim_length = 6 -- trim 6 chars from both ends
 })
 ```
 
@@ -109,7 +111,14 @@ Displays the number of selected ('S') and yanked ('Y') files on the left. If fil
 
 ### Trimmed Filename
 
-Shows the trimmed filename on the left, useful for smaller screens or when using Yazi in a smaller window. By default, it's 24 characters with trimming to 12. Adjust in the `Status:name` function.
+Displays the trimmed filename on the left, which is useful for smaller screens or long filenames. By default, it's 24 characters with trimming to 12. Adjust in the `setup`.
+
+```lua
+require("yaziline"):setup({
+  filename_max_length = 24, -- trim when filename > 24
+  filename_trim_length = 6 -- trim 6 chars from both ends
+})
+```
 
 ### ISO Date for 'Modified'
 

@@ -17,7 +17,9 @@ local function setup(_, options)
       separator_close_thin = options.separator_close_thin or separators[4]
     },
     select_symbol = options.select_symbol or "S",
-    yank_symbol = options.yank_symbol or "Y"
+    yank_symbol = options.yank_symbol or "Y",
+    filename_max_length = options.filename_max_length or 24,
+    filename_trim_length = options.filename_trim_length or 6
   }
 
   local current_separator_style = config.separator_styles
@@ -56,7 +58,7 @@ local function setup(_, options)
       return ui.Line {}
     end
 
-    local trimmed_name = #h.name > 24 and (string.sub(h.name, 1, 6) .. "..." .. string.sub(h.name, -6)) or h.name
+    local trimmed_name = #h.name > config.filename_max_length and (string.sub(h.name, 1, config.filename_trim_length) .. "..." .. string.sub(h.name, -config.filename_trim_length)) or h.name
 
     local style = self:style()
     return ui.Line {
