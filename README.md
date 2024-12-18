@@ -8,7 +8,7 @@ Read more about features and configuration [here](#features).
 
 ## Requirements
 
-- yazi version >= 0.3.0
+- yazi version >= 0.4.0
 - Font with symbol support. For example [Nerd Fonts](https://www.nerdfonts.com/).
 
 ## Installation
@@ -31,7 +31,8 @@ Optionally, configure line:
 
 ```lua
 require("yaziline"):setup({
-  separator_style = "angly" -- "angly" | "curvy" | "liney" | "empty"
+  color = "#98c379", -- main theme color
+  separator_style = "angly", -- "angly" | "curvy" | "liney" | "empty"
   separator_open = "",
   separator_close = "",
   separator_open_thin = "",
@@ -95,10 +96,18 @@ _You can find more symbols [here](https://www.nerdfonts.com/cheat-sheet)_
 
 ### Colors and font weight
 
-You can change background and font weight in your `yazi/flavors/flavor.toml`.
+You can change font weight in your `yazi/flavors/flavor.toml`:
 
 ```toml
-mode_normal = { bg = "#98c379", bold = false }
+mode_normal = { bold = false }
+```
+
+And set custom color in the `init.lua`:
+
+```lua
+require("yaziline"):setup({
+  color = "#98c379"
+})
 ```
 
 For example, here is how my line looks like:
@@ -111,7 +120,7 @@ Displays the number of selected ('S') and yanked ('Y') files on the left. If fil
 
 ### Trimmed Filename
 
-Displays the trimmed filename on the left, which is useful for smaller screens or long filenames. By default, it's 24 characters with trimming to 12. Adjust in the `setup`.
+Displays the trimmed filename on the left, which is useful for smaller windows or long filenames. By default, it's 24 characters with trimming to 12. Adjust in the `setup`.
 
 ```lua
 require("yaziline"):setup({
