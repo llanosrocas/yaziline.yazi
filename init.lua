@@ -14,7 +14,9 @@ local function setup(_, options)
       separator_open = options.separator_open or separators[1],
       separator_close = options.separator_close or separators[2],
       separator_open_thin = options.separator_open_thin or separators[3],
-      separator_close_thin = options.separator_close_thin or separators[4]
+      separator_close_thin = options.separator_close_thin or separators[4],
+      separator_head = options.separator_head or "",
+      separator_tail = options.separator_tail or ""
     },
     select_symbol = options.select_symbol or "S",
     yank_symbol = options.yank_symbol or "Y",
@@ -36,7 +38,10 @@ local function setup(_, options)
     end
 
     local style = self:style()
-    return ui.Span(" " .. mode .. " "):fg(THEME.which.mask.bg):bg(config.color or style.main.bg)
+    return ui.Line({
+      ui.Span(current_separator_style.separator_head):fg(config.color or style.main.bg),
+      ui.Span(" " .. mode .. " "):fg(THEME.which.mask.bg):bg(config.color or style.main.bg),
+    })
   end
 
   function Status:size()
@@ -125,7 +130,10 @@ local function setup(_, options)
     local length = #self._tab.current.files
 
     local style = self:style()
-    return ui.Span(string.format(" %2d/%-2d ", cursor + 1, length)):fg(THEME.which.mask.bg):bg(config.color or style.main.bg)
+    return ui.Line({
+      ui.Span(string.format(" %2d/%-2d ", cursor + 1, length)):fg(THEME.which.mask.bg):bg(config.color or style.main.bg),
+      ui.Span(current_separator_style.separator_tail):fg(config.color or style.main.bg),
+    })
   end
 
   Status:children_add(Status.files, 4000, Status.LEFT)
