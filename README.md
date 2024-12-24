@@ -37,6 +37,8 @@ require("yaziline"):setup({
   separator_close = "",
   separator_open_thin = "",
   separator_close_thin = "",
+  separator_head = "",
+  separator_tail = "",
   select_symbol = "",
   yank_symbol = "󰆐",
   filename_max_length = 24, -- trim when filename > 24
@@ -71,6 +73,8 @@ require("yaziline"):setup({
   separator_close = "", -- instead of 
   separator_open_thin = "", -- change to anything
   separator_close_thin = "", -- change to anything
+  separator_head = "", -- to match the style
+  separator_tail = "", -- to match the style
 })
 ```
 
