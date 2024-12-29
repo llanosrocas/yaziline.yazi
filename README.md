@@ -41,8 +41,9 @@ require("yaziline"):setup({
   separator_tail = "",
   select_symbol = "",
   yank_symbol = "󰆐",
-  filename_max_length = 24, -- trim when filename > 24
-  filename_trim_length = 6 -- trim 6 chars from both ends
+  filename_max_length = 24, -- truncate when filename > 24
+  filename_truncate_length = 6, -- leave 6 chars on both sides
+  filename_truncate_separator = "..." -- the separator of the truncated filename
 })
 ```
 
@@ -74,7 +75,7 @@ require("yaziline"):setup({
   separator_open_thin = "", -- change to anything
   separator_close_thin = "", -- change to anything
   separator_head = "", -- to match the style
-  separator_tail = "", -- to match the style
+  separator_tail = "" -- to match the style
 })
 ```
 
@@ -90,7 +91,7 @@ You can provide your own symbols for `select` and `yank`. For example:
 require("yaziline"):setup({
   -- Optinal config
   select_symbol = "", -- "S" by default
-  yank_symbol = "󰆐", -- "Y" by default
+  yank_symbol = "󰆐" -- "Y" by default
 })
 ```
 
@@ -122,14 +123,15 @@ For example, here is how my line looks like:
 
 Displays the number of selected ('S') and yanked ('Y') files on the left. If files are cut, the yank counter changes color, since its `yank --cut` under the hood.
 
-### Trimmed Filename
+### Truncated filename
 
-Displays the trimmed filename on the left, which is useful for smaller windows or long filenames. By default, it's 24 characters with trimming to 12. Adjust in the `setup`.
+Displays the truncated filename on the left, which is useful for smaller windows or long filenames. By default, it's 24 characters with trimming to 12 (6 + 6). Adjust in the `setup`.
 
 ```lua
 require("yaziline"):setup({
-  filename_max_length = 24, -- trim when filename > 24
-  filename_trim_length = 6 -- trim 6 chars from both ends
+  filename_max_length = 24, -- truncate when filename > 24
+  filename_truncate_length = 6, -- leave 6 chars on both sides
+  filename_truncate_separator = "..." -- the separator of the truncated filename
 })
 ```
 

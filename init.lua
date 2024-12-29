@@ -21,7 +21,8 @@ local function setup(_, options)
     select_symbol = options.select_symbol or "S",
     yank_symbol = options.yank_symbol or "Y",
     filename_max_length = options.filename_max_length or 24,
-    filename_trim_length = options.filename_trim_length or 6,
+    filename_truncate_length = options.filename_truncate_length or 6,
+    filename_truncate_separator = options.filename_truncate_separator or "...",
     color = options.color or nil
   }
 
@@ -55,20 +56,43 @@ local function setup(_, options)
         :fg(config.color or style.main.bg):bg(THEME.which.separator_style.fg)
   end
 
+  function Status:utf8_sub(str, start_char, end_char)
+    local start_byte = utf8.offset(str, start_char)
+    local end_byte = end_char and (utf8.offset(str, end_char + 1) - 1) or #str
+
+    if not start_byte or not end_byte then
+      return ""
+    end
+
+    return string.sub(str, start_byte, end_byte)
+  end
+
+  function Status:truncate_name(filename, max_length)
+    local base_name, extension = filename:match("^(.-)(%.[^%.]+)$")
+    base_name = base_name or filename
+    extension = extension or ""
+
+    if utf8.len(base_name) > max_length then
+      base_name = self:utf8_sub(base_name, 1, config.filename_truncate_length) ..
+        config.filename_truncate_separator ..
+        self:utf8_sub(base_name, -config.filename_truncate_length)
+    end
+
+    return base_name .. extension
+  end
+
   function Status:name()
     local h = self._tab.current.hovered
     if not h then
       return ui.Line {}
     end
 
-    local trimmed_name = #h.name > config.filename_max_length and
-        (string.sub(h.name, 1, config.filename_trim_length) .. "..." .. string.sub(h.name, -config.filename_trim_length)) or
-        h.name
+    local truncated_name = self:truncate_name(h.name, config.filename_max_length)
 
     local style = self:style()
     return ui.Line {
       ui.Span(current_separator_style.separator_close .. " "):fg(THEME.which.separator_style.fg),
-      ui.Span(trimmed_name):fg(config.color or style.main.bg),
+      ui.Span(truncated_name):fg(config.color or style.main.bg),
     }
   end
 
