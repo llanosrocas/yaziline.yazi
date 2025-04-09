@@ -111,17 +111,15 @@ _You can find more symbols [here](https://www.nerdfonts.com/cheat-sheet)_
 
 ### Colors and font weight
 
-You can change font weight in your `yazi/flavors/flavor.toml`:
-
-```toml
-mode_normal = { bold = false }
-```
-
-And set custom color in the `init.lua`:
+By default yaziline uses color values from your `theme.toml` (or flavor) but you can set custom colors in the `init.lua`:
 
 ```lua
 require("yaziline"):setup({
-  color = "#98c379"
+  color = "#98c379",
+  default_files_color = "darkgray",
+  selected_files_color = "white",
+  yanked_files_color = "green",
+  cut_files_color = "red",
 })
 ```
 
