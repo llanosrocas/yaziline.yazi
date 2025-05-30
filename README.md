@@ -4,23 +4,20 @@ Simple lualine-like status line for yazi.
 
 Read more about features and configuration [here](#features).
 
-> ⚠️ **Note**:
-> If you experience any issues after updating, please refer to the latest release notes. This repository is continuously synced with the upstream Yazi source code, which is actively maintained and frequently updated.
-
 ![preview](https://github.com/llanosrocas/yaziline.yazi/blob/master/.github/images/preview.png)
 
 ## Requirements
 
-- yazi version >= [25.4.8](https://github.com/sxyazi/yazi/releases/tag/v25.4.8)
+- yazi version >= [25.5.28](https://github.com/sxyazi/yazi/releases/tag/v25.5.28)
 - Font with symbol support. For example [Nerd Fonts](https://www.nerdfonts.com/).
 
 ## Installation
 
 ```sh
-ya pack -a llanosrocas/yaziline
+ya pkg add llanosrocas/yaziline
 ```
 
-Or manually copy `init.lua` to the `~/.config/yazi/plugins/yaziline.yazi/init.lua`
+Or manually copy `main.lua` to the `~/.config/yazi/plugins/yaziline.yazi/main.lua`
 
 ## Usage
 
@@ -35,6 +32,7 @@ Optionally, configure line:
 ```lua
 require("yaziline"):setup({
   color = "#98c379", -- main theme color
+  secondary_color = "#5A6078", -- secondary color
   default_files_color = "darkgray", -- color of the file counter when it's inactive
   selected_files_color = "white",
   yanked_files_color = "green",
@@ -55,6 +53,20 @@ require("yaziline"):setup({
   filename_truncate_length = 6, -- leave 6 chars on both sides
   filename_truncate_separator = "..." -- the separator of the truncated filename
 })
+```
+
+```
+ MODE  size  long_file...name.md  S 0 Y 0
+|  |   |   |  |           |         | |   |
+|  |   |   |  |           |         | |   └─── yank_symbol
+|  |   |   |  |           |         | └─────── select_symbol
+|  |   |   |  |           |         └───────── separator_close_thin
+|  |   |   |  |           └─────────────────── filename_truncate_separator
+|  |   |   |  └─────────────────────────────── separator_close
+|  |   |   └────────────────────────────────── secondary_color
+|  |   └────────────────────────────────────── separator_close
+|  └────────────────────────────────────────── color
+└───────────────────────────────────────────── separator_head
 ```
 
 ## Features

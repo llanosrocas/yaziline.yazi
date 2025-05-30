@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 local function setup(_, options)
 	options = options or {}
 
@@ -26,6 +28,7 @@ local function setup(_, options)
 		filename_truncate_separator = options.filename_truncate_separator or "...",
 
 		color = options.color or nil,
+    secondary_color = options.secondary_color or nil,
     default_files_color = options.default_files_color
       or th.which.separator_style.fg
       or "darkgray",
@@ -61,12 +64,12 @@ local function setup(_, options)
 
 	function Status:size()
 		local h = self._current.hovered
-	  local size = h and ya.readable_size(h:size() or h.cha.len)
+		local size = h and (h:size() or h.cha.len) or 0
 
 		local style = self:style()
-		return ui.Span(current_separator_style.separator_close .. " " .. size .. " ")
+		return ui.Span(current_separator_style.separator_close .. " " .. ya.readable_size(size) .. " ")
 			:fg(config.color or style.main.bg)
-			:bg(th.which.separator_style.fg)
+			:bg(config.secondary_color or th.which.separator_style.fg)
 	end
 
 	function Status:utf8_sub(str, start_char, end_char)
@@ -95,21 +98,26 @@ local function setup(_, options)
 	end
 
 	function Status:name()
-    local h = self._current.hovered
-    if not h then
-      return ""
-    end
+		local h = self._current.hovered
+		if not h then
+			return ui.Line({
+				ui.Span(current_separator_style.separator_close .. " ")
+          :fg(config.secondary_color or th.which.separator_style.fg),
+				ui.Span("Empty dir")
+          :fg(config.color or style.main.bg),
+			})
+		end
 
-    local truncated_name = self:truncate_name(h.name, config.filename_max_length)
+		local truncated_name = self:truncate_name(h.name, config.filename_max_length)
 
-    local style = self:style()
-    return ui.Line {
-      ui.Span(current_separator_style.separator_close .. " ")
-        :fg(th.which.separator_style.fg),
-      ui.Span(truncated_name)
+		local style = self:style()
+		return ui.Line({
+			ui.Span(current_separator_style.separator_close .. " ")
+        :fg(config.secondary_color or th.which.separator_style.fg),
+			ui.Span(truncated_name)
         :fg(config.color or style.main.bg),
-    }
-  end
+		})
+	end
 
 	function Status:files()
 		local files_yanked = #cx.yanked
@@ -134,7 +142,7 @@ local function setup(_, options)
 		return ui.Line({
 			ui.Span(" " .. current_separator_style.separator_close_thin .. " ")
         :fg(th.which.separator_style.fg),
-       ui.Span(config.select_symbol .. " " .. files_selected .. " ")
+			ui.Span(config.select_symbol .. " " .. files_selected .. " ")
         :fg(selected_fg),
 			ui.Span(yanked_text .. "  ")
         :fg(yanked_fg),
@@ -143,6 +151,11 @@ local function setup(_, options)
 
 	function Status:modified()
 		local hovered = cx.active.current.hovered
+
+		if not hovered then
+			return ""
+		end
+
 		local cha = hovered.cha
 		local time = (cha.mtime or 0) // 1
 
@@ -168,14 +181,14 @@ local function setup(_, options)
 
 		local style = self:style()
 		return ui.Line({
-			ui.Span(" " .. current_separator_style.separator_open)
-        :fg(th.which.separator_style.fg),
+      ui.Span(" " .. current_separator_style.separator_open)
+        :fg(config.secondary_color or th.which.separator_style.fg),
 			ui.Span(percent)
         :fg(config.color or style.main.bg)
-        :bg(th.which.separator_style.fg),
+        :bg(config.secondary_color or th.which.separator_style.fg),
 			ui.Span(current_separator_style.separator_open)
 				:fg(config.color or style.main.bg)
-				:bg(th.which.separator_style.fg),
+				:bg(config.secondary_color or th.which.separator_style.fg),
 		})
 	end
 
