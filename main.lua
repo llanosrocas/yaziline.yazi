@@ -99,6 +99,7 @@ local function setup(_, options)
 
   function Status:name()
     local h = self._current.hovered
+    local style = self:style()
     if not h then
       return ui.Line({
         ui.Span(current_separator_style.separator_close .. " ")
@@ -110,7 +111,6 @@ local function setup(_, options)
 
     local truncated_name = self:truncate_name(h.name, config.filename_max_length)
 
-    local style = self:style()
     return ui.Line({
       ui.Span(current_separator_style.separator_close .. " ")
           :fg(config.secondary_color or th.which.separator_style:fg()),
