@@ -35,7 +35,7 @@ local function setup(_, options)
     selected_files_color = options.selected_files_color
       or th.mgr.count_selected:bg()
       or "white",
-    yanked_files_color = options.selected_files_color
+    yanked_files_color = options.yanked_files_color
       or th.mgr.count_copied:bg()
       or "green",
     cut_files_color = options.cut_files_color or th.mgr.count_cut:bg() or "red",
