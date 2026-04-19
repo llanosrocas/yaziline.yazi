@@ -30,17 +30,15 @@ local function setup(_, options)
     color = options.color or nil,
     secondary_color = options.secondary_color or nil,
     default_files_color = options.default_files_color
-        or th.which.separator_style:fg()
-        or "darkgray",
+      or th.which.separator_style:fg()
+      or "darkgray",
     selected_files_color = options.selected_files_color
-        or th.mgr.count_selected:bg()
-        or "white",
+      or th.mgr.count_selected:bg()
+      or "white",
     yanked_files_color = options.selected_files_color
-        or th.mgr.count_copied:bg()
-        or "green",
-    cut_files_color = options.cut_files_color
-        or th.mgr.count_cut:bg()
-        or "red",
+      or th.mgr.count_copied:bg()
+      or "green",
+    cut_files_color = options.cut_files_color or th.mgr.count_cut:bg() or "red",
   }
 
   local current_separator_style = config.separator_styles
@@ -55,10 +53,10 @@ local function setup(_, options)
     local style = self:style()
     return ui.Line({
       ui.Span(current_separator_style.separator_head)
-          :fg(config.color or style.main:bg()),
+        :fg(config.color or style.main:bg()),
       ui.Span(" " .. mode .. " ")
-          :fg(th.which.mask:bg())
-          :bg(config.color or style.main:bg()),
+        :fg(th.which.mask:bg())
+        :bg(config.color or style.main:bg()),
     })
   end
 
@@ -67,9 +65,14 @@ local function setup(_, options)
     local size = h and (h:size() or h.cha.len) or 0
 
     local style = self:style()
-    return ui.Span(current_separator_style.separator_close .. " " .. ya.readable_size(size) .. " ")
-        :fg(config.color or style.main:bg())
-        :bg(config.secondary_color or th.which.separator_style:fg())
+    return ui.Span(
+      current_separator_style.separator_close
+        .. " "
+        .. ya.readable_size(size)
+        .. " "
+    )
+      :fg(config.color or style.main:bg())
+      :bg(config.secondary_color or th.which.separator_style:fg())
   end
 
   function Status:utf8_sub(str, start_char, end_char)
@@ -90,8 +93,8 @@ local function setup(_, options)
 
     if utf8.len(base_name) > max_length then
       base_name = self:utf8_sub(base_name, 1, config.filename_truncate_length)
-          .. config.filename_truncate_separator
-          .. self:utf8_sub(base_name, -config.filename_truncate_length)
+        .. config.filename_truncate_separator
+        .. self:utf8_sub(base_name, -config.filename_truncate_length)
     end
 
     return base_name .. extension
@@ -103,19 +106,18 @@ local function setup(_, options)
     if not h then
       return ui.Line({
         ui.Span(current_separator_style.separator_close .. " ")
-            :fg(config.secondary_color or th.which.separator_style:fg()),
-        ui.Span("Empty dir")
-            :fg(config.color or style.main:bg()),
+          :fg(config.secondary_color or th.which.separator_style:fg()),
+        ui.Span("Empty dir"):fg(config.color or style.main:bg()),
       })
     end
 
-    local truncated_name = self:truncate_name(h.name, config.filename_max_length)
+    local truncated_name =
+      self:truncate_name(h.name, config.filename_max_length)
 
     return ui.Line({
       ui.Span(current_separator_style.separator_close .. " ")
-          :fg(config.secondary_color or th.which.separator_style:fg()),
-      ui.Span(truncated_name)
-          :fg(config.color or style.main:bg()),
+        :fg(config.secondary_color or th.which.separator_style:fg()),
+      ui.Span(truncated_name):fg(config.color or style.main:bg()),
     })
   end
 
@@ -124,28 +126,22 @@ local function setup(_, options)
     local files_selected = #cx.active.selected
     local files_cut = cx.yanked.is_cut
 
-    local selected_fg = files_selected > 0
-        and config.selected_files_color
-        or config.default_files_color
+    local selected_fg = files_selected > 0 and config.selected_files_color
+      or config.default_files_color
     local yanked_fg = files_yanked > 0
-        and
-        (files_cut
-          and config.cut_files_color
-          or config.yanked_files_color
-        )
-        or config.default_files_color
+        and (files_cut and config.cut_files_color or config.yanked_files_color)
+      or config.default_files_color
 
     local yanked_text = files_yanked > 0
         and config.yank_symbol .. " " .. files_yanked
-        or config.yank_symbol .. " 0"
+      or config.yank_symbol .. " 0"
 
     return ui.Line({
       ui.Span(" " .. current_separator_style.separator_close_thin .. " ")
-          :fg(th.which.separator_style:fg()),
+        :fg(th.which.separator_style:fg()),
       ui.Span(config.select_symbol .. " " .. files_selected .. " ")
-          :fg(selected_fg),
-      ui.Span(yanked_text .. "  ")
-          :fg(yanked_fg),
+        :fg(selected_fg),
+      ui.Span(yanked_text .. "  "):fg(yanked_fg),
     })
   end
 
@@ -159,8 +155,12 @@ local function setup(_, options)
     local cha = hovered.cha
     local time = (cha.mtime or 0) // 1
 
-    return ui.Span(os.date("%Y-%m-%d %H:%M", time) .. " " .. current_separator_style.separator_open_thin .. " ")
-        :fg(th.which.separator_style:fg())
+    return ui.Span(
+      os.date("%Y-%m-%d %H:%M", time)
+        .. " "
+        .. current_separator_style.separator_open_thin
+        .. " "
+    ):fg(th.which.separator_style:fg())
   end
 
   function Status:percent()
@@ -182,13 +182,13 @@ local function setup(_, options)
     local style = self:style()
     return ui.Line({
       ui.Span(" " .. current_separator_style.separator_open)
-          :fg(config.secondary_color or th.which.separator_style:fg()),
+        :fg(config.secondary_color or th.which.separator_style:fg()),
       ui.Span(percent)
-          :fg(config.color or style.main:bg())
-          :bg(config.secondary_color or th.which.separator_style:fg()),
+        :fg(config.color or style.main:bg())
+        :bg(config.secondary_color or th.which.separator_style:fg()),
       ui.Span(current_separator_style.separator_open)
-          :fg(config.color or style.main:bg())
-          :bg(config.secondary_color or th.which.separator_style:fg()),
+        :fg(config.color or style.main:bg())
+        :bg(config.secondary_color or th.which.separator_style:fg()),
     })
   end
 
@@ -198,10 +198,13 @@ local function setup(_, options)
 
     local style = self:style()
     return ui.Line({
-      ui.Span(string.format(" %2d/%-2d ", math.min(cursor + 1, length), length))
-          :fg(th.which.mask:bg())
-          :bg(config.color or style.main:bg()),
-      ui.Span(current_separator_style.separator_tail):fg(config.color or style.main:bg()),
+      ui.Span(
+        string.format(" %2d/%-2d ", math.min(cursor + 1, length), length)
+      )
+        :fg(th.which.mask:bg())
+        :bg(config.color or style.main:bg()),
+      ui.Span(current_separator_style.separator_tail)
+        :fg(config.color or style.main:bg()),
     })
   end
 
