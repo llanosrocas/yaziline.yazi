@@ -24,6 +24,8 @@ This setup allows shipping stable versions on time, while giving early access to
 
 |                                  yaziline                                  | yazi                                                                                      |
 | :------------------------------------------------------------------------: | ----------------------------------------------------------------------------------------- |
+| [v2.5.4](https://github.com/llanosrocas/yaziline.yazi/releases/tag/v2.5.4) | [v26.5.6](https://github.com/sxyazi/yazi/releases/tag/v26.5.6)                            |
+| [v2.5.3](https://github.com/llanosrocas/yaziline.yazi/releases/tag/v2.5.3) | [v26.1.22](https://github.com/sxyazi/yazi/releases/tag/v26.1.22)                          |
 | [v2.5.2](https://github.com/llanosrocas/yaziline.yazi/releases/tag/v2.5.2) | [v26.1.22](https://github.com/sxyazi/yazi/releases/tag/v26.1.22)                          |
 | [v2.5.2](https://github.com/llanosrocas/yaziline.yazi/releases/tag/v2.5.2) | [2f66561](https://github.com/sxyazi/yazi/commit/2f66561a8251f8788b2b0fd366af90555ecafc86) |
 | [v2.5.2](https://github.com/llanosrocas/yaziline.yazi/releases/tag/v2.5.2) | [6cfa92f](https://github.com/sxyazi/yazi/commit/6cfa92f11205d212155579b5b76d4cbabe723829) |

@@ -60,15 +60,15 @@ local function setup(_, options)
     })
   end
 
-  function Status:size()
+  function Status:length()
     local h = self._current.hovered
-    local size = h and (h:size() or h.cha.len) or 0
+    local len = h and h.cha.len or 0
 
     local style = self:style()
     return ui.Span(
       current_separator_style.separator_close
         .. " "
-        .. ya.readable_size(size)
+        .. ya.readable_size(len)
         .. " "
     )
       :fg(config.color or style.main:bg())
