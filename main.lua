@@ -40,7 +40,7 @@ local function setup(_, options)
       or th.mgr.count_copied:bg()
       or "green",
     cut_files_color = options.cut_files_color or th.mgr.count_cut:bg() or "red",
-    mask_color = th.which.mask:bg(),
+    mask_color = th.which.mask:bg() or "black",
   }
 
   local current_separator_style = config.separator_styles
