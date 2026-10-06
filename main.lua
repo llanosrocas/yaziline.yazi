@@ -154,14 +154,26 @@ local function setup(_, options)
       return ""
     end
 
-    local cha = hovered.cha
-    local time = (cha.mtime or 0) // 1
+    local mtime = hovered.cha.mtime
+    if not mtime then
+      return ""
+    end
+
+    local formatted_mtime
+    if type(mtime) == "number" then
+      formatted_mtime = os.date("%Y-%m-%d %H:%M", math.floor(mtime))
+    else
+      formatted_mtime = mtime:format({
+        year = "system",
+        month = "system",
+        day = "system",
+        hour24 = "system",
+        minute = "system",
+      })
+    end
 
     return ui.Span(
-      os.date("%Y-%m-%d %H:%M", time)
-        .. " "
-        .. current_separator_style.separator_open_thin
-        .. " "
+      formatted_mtime .. " " .. current_separator_style.separator_open_thin .. " "
     ):fg(config.secondary_color or th.which.separator_style:fg())
   end
 
