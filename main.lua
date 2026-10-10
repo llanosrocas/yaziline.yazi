@@ -149,7 +149,6 @@ local function setup(_, options)
 
   function Status:modified()
     local hovered = cx.active.current.hovered
-
     if not hovered then
       return ""
     end
@@ -159,21 +158,18 @@ local function setup(_, options)
       return ""
     end
 
-    local formatted_mtime
-    if type(mtime) == "number" then
-      formatted_mtime = os.date("%Y-%m-%d %H:%M", math.floor(mtime))
-    else
-      formatted_mtime = mtime:format({
-        year = "system",
-        month = "system",
-        day = "system",
-        hour24 = "system",
-        minute = "system",
-      })
+    local secs = type(mtime) == "number" and mtime or mtime.unix
+    if not secs then
+      return ""
+    end
+
+    local ok, formatted = pcall(os.date, "%Y-%m-%d %H:%M", math.floor(secs))
+    if not ok then
+      return ""
     end
 
     return ui.Span(
-      formatted_mtime .. " " .. current_separator_style.separator_open_thin .. " "
+      formatted .. " " .. current_separator_style.separator_open_thin .. " "
     ):fg(config.secondary_color or th.which.separator_style:fg())
   end
 
